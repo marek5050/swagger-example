@@ -50,8 +50,10 @@ dom_id: '#swagger-ui',
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
-      })
+        layout: "StandaloneLayout",
+ "onComplete": function(){
+                $("#model-BillOfLading").addClass("swagger-ui opblock opblock-post");
+        }      })
       // End Swagger UI call region
 
       window.ui = ui

@@ -60,7 +60,7 @@ slackMsg() {
         exit 1
     fi
     echo "$@"
-        curl -s -X POST \
+      curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \
               -H 'Content-Type: application/json' \
               -H 'cache-control: no-cache' \
@@ -70,20 +70,20 @@ slackMsg() {
                             "color": "#2eb886",
                             "author_name": "Schema Devops",
                             "title": "Publish to ' ${ENVIRONMENT} '",
-                            "text": "'"<https://cloud.ibm.com/devops/pipelines/$PIPELINE_ID/$PIPELINE_STAGE_ID/$IDS_JOB_ID/$PIPELINE_STAGE_EXECUTION_ID/$TASK_ID?env_id=$CR_REGION_ID|pipeline $APP_NAME> failure for stage *$IDS_STAGE_NAME* build number $BUILD_NUMBER"'",
+                            "text": "",
                             "fields": [
                                         {
                                             "title": "Environent",
                                             "value": "'"${ENVIRONMENT}"'"
                                         },{
                                             "title": "SCHEMA TYPE",
-                                            "value": "'${SCHEMA_TYPE}'"
+                                            "value": "'"${SCHEMA_TYPE}"'"
                                         },{
                                             "title": "SCHEMA VERSION",
-                                            "value": "'${SCHEMA_VERSION}'"
+                                            "value": "'"${SCHEMA_VERSION}"'"
                                         },{
                                             "title": "SCHEMA ID",
-                                            "value": "'${SCHEMA_ID}'"
+                                            "value": "'"${SCHEMA_ID}"'"
                                         }
 
                                     ]

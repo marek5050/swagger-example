@@ -69,21 +69,21 @@ slackMsg() {
                         {
                             "color": "#2eb886",
                             "author_name": "Schema Devops",
-                            "title": "Publish to ' ${ENVIRONMENT} '",
+                            "title": "Publish to ' $ENVIRONMENT '",
                             "text": "",
                             "fields": [
                                         {
                                             "title": "Environent",
-                                            "value": "'"${ENVIRONMENT}"'"
+                                            "value": "'$ENVIRONMENT'"
                                         },{
                                             "title": "SCHEMA TYPE",
-                                            "value": "'"${SCHEMA_TYPE}"'"
+                                            "value": "'$SCHEMA_TYPE'"
                                         },{
                                             "title": "SCHEMA VERSION",
-                                            "value": "'"${SCHEMA_VERSION}"'"
+                                            "value": "'$SCHEMA_VERSION'"
                                         },{
                                             "title": "SCHEMA ID",
-                                            "value": "'"${SCHEMA_ID}"'"
+                                            "value": "'$SCHEMA_ID'"
                                         }
 
                                     ]

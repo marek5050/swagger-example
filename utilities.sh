@@ -10,11 +10,6 @@ slackMsg() {
         echo "Slack token undefined"
         exit 1
     fi
-    echo "$@"
-    echo $ENVIRONMENT
-    echo $SCHEMA_TYPE
-    echo $SCHEMA_VERSION
-    echo $SCHEMA_ID
 
     curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \

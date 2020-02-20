@@ -25,8 +25,8 @@ slackMsg() {
                         {
                             "color": "#2eb886",
                             "author_name": "Schema Devops",
-                            "title": "Publish to ' $ENVIRONMENT '",
-                            "text": "",
+                            "title": "Publish to '$ENVIRONMENT'",
+                            "text": "sample test",
                             "fields": [
                                         {
                                             "title": "Environent",

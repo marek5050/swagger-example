@@ -1,0 +1,11 @@
+language: generic
+sudo: false
+
+env:
+  global:
+    - DEV_FINAL_TARGET=docs-final
+
+
+script:
+  - ./utilities.sh
+  - ./publish.sh

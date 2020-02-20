@@ -60,7 +60,12 @@ slackMsg() {
         exit 1
     fi
     echo "$@"
-      curl -s -X POST \
+    echo $ENVIRONMENT
+    echo $SCHEMA_TYPE
+    echo $SCHEMA_VERSION
+    echo $SCHEMA_ID
+
+    curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \
               -H 'Content-Type: application/json' \
               -H 'cache-control: no-cache' \
@@ -89,5 +94,5 @@ slackMsg() {
                                     ]
                                 }
                             ]
-                  }' > /dev/null
+                  }'
 }

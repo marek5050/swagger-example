@@ -50,17 +50,16 @@ slackMsgFail() {
 }
 
 slackMsg() {
-    local msg=$1
-    msg=$(echo $msg | sed 's/"/\\"/g')
-    local exit_code=$2
+    local ENVIRONMENT=$1
+    local SCHEMA_TYPE=$2
+    local SCHEMA_VERSION=$3
+    local SCHEMA_ID=$4
+
     if [[ $SLACK_WEBHOOK == "" ]];then
         echo "Slack token undefined"
         exit 1
     fi
-    if [[ $CR_REGION_ID == "" ]];then
-        CR_REGION_ID=ibm:yp:us-south
-    fi
-        echo "$@"
+    echo "$@"
         curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \
               -H 'Content-Type: application/json' \
@@ -68,21 +67,25 @@ slackMsg() {
               -d '{
                     "attachments": [
                         {
-                            "color": "success",
-                            "pretext": "Pipeline Report",
-                            "author_name": "CICD Reporter",
-                            "title": "'$APP_NAME'",
+                            "color": "#2eb886",
+                            "author_name": "Schema Devops",
+                            "title": "Publish to ' $BRANCH '",
                             "text": "'"<https://cloud.ibm.com/devops/pipelines/$PIPELINE_ID/$PIPELINE_STAGE_ID/$IDS_JOB_ID/$PIPELINE_STAGE_EXECUTION_ID/$TASK_ID?env_id=$CR_REGION_ID|pipeline $APP_NAME> failure for stage *$IDS_STAGE_NAME* build number $BUILD_NUMBER"'",
                             "fields": [
                                         {
-                                            "title": "Pipeline",
-                                            "value": "'$IDS_PROJECT_NAME'",
-                                            "short": false
-                                        },
-                                        {
-                                            "title": "Error Msg",
-                                            "value": "'"${msg} : exit code $exit_code"'"
+                                            "title": "Environent",
+                                            "value": "'"${ENVIRONMENT}"'"
+                                        },{
+                                            "title": "SCHEMA TYPE",
+                                            "value": "'${SCHEMA_TYPE}'"
+                                        },{
+                                            "title": "SCHEMA VERSION",
+                                            "value": "'${SCHEMA_VERSION}'"
+                                        },{
+                                            "title": "SCHEMA ID",
+                                            "value": "'${SCHEMA_ID}'"
                                         }
+
                                     ]
                                 }
                             ]

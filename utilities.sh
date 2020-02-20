@@ -69,7 +69,7 @@ slackMsg() {
                         {
                             "color": "#2eb886",
                             "author_name": "Schema Devops",
-                            "title": "Publish to ' $BRANCH '",
+                            "title": "Publish to ' ${ENVIRONMENT} '",
                             "text": "'"<https://cloud.ibm.com/devops/pipelines/$PIPELINE_ID/$PIPELINE_STAGE_ID/$IDS_JOB_ID/$PIPELINE_STAGE_EXECUTION_ID/$TASK_ID?env_id=$CR_REGION_ID|pipeline $APP_NAME> failure for stage *$IDS_STAGE_NAME* build number $BUILD_NUMBER"'",
                             "fields": [
                                         {

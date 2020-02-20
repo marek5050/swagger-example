@@ -1,3 +1,5 @@
+#!/bin/bash
+
 slackMsg() {
     local ENVIRONMENT=$1
     local SCHEMA_TYPE=$2

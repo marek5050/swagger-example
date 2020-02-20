@@ -7,5 +7,4 @@ env:
 
 
 script:
-  - ./utilities.sh
   - ./publish.sh

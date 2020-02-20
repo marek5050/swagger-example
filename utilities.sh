@@ -21,7 +21,6 @@ slackMsgFail() {
         curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \
               -H 'Content-Type: application/json' \
-              -H 'Postman-Token: 633b76fa-7b9b-4861-b568-243cf0e3099a' \
               -H 'cache-control: no-cache' \
               -d '{
                     "attachments": [
@@ -61,12 +60,10 @@ slackMsg() {
     if [[ $CR_REGION_ID == "" ]];then
         CR_REGION_ID=ibm:yp:us-south
     fi
-    if [[ $exit_code -ne 0 ]];then
         echo "$@"
         curl -s -X POST \
               https://hooks.slack.com/services/${SLACK_WEBHOOK} \
               -H 'Content-Type: application/json' \
-              -H 'Postman-Token: 633b76fa-7b9b-4861-b568-243cf0e3099a' \
               -H 'cache-control: no-cache' \
               -d '{
                     "attachments": [
@@ -90,7 +87,4 @@ slackMsg() {
                                 }
                             ]
                   }' > /dev/null
-    else
-        echo "$@"
-    fi
 }

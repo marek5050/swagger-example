@@ -1,6 +1,13 @@
 language: generic
 sudo: false
 
+before_install:
+  - sudo apt-get -y jq
+
+addons:
+  apt:
+    update: true
+
 env:
   global:
     - DEV_FINAL_TARGET=docs-final

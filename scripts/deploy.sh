@@ -35,4 +35,4 @@ TOKEN=`echo $TRADELENS_TOKEN | jq ".onboarding_token"`
 
 AUTH_HEADER="Authorization: Bearer ${TOKEN}"
 
-curl -X POST -H "${HEADER_ACCEPT}" -H "${HEADER_CONTENT_TYPE}"  -H "$AUTH_HEADER" -d @../docs-schema/BillOfLading.json 2> /dev/null > "${COMM_FILE}"
+curl -X POST "https://platform-dev.tradelens.com/api/v1/documentSchema" -H "$AUTH_HEADER" -d @../docs-schema/BillOfLading.json

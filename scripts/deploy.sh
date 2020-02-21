@@ -2,24 +2,25 @@
 set -ev
 
 # - CHANGED_FOLDER: Check if the CHANGED_FOLDER is test or final
-if [ -z "$CHANGED_FOLDER" ] && [ -z "$CHANGED_DOC" ] &&  [ -z "$CHANGED_FILE" ]
-then
-      echo "no changes in either docs-test or docs-final folders, nothing to deploy ";
-      exit
-fi
+#if [ -z "$CHANGED_FOLDER" ] && [ -z "$CHANGED_DOC" ] &&  [ -z "$CHANGED_FILE" ]
+#then
+#      echo "no changes in either docs-test or docs-final folders, nothing to deploy ";
+#      exit
+#fi
 
 HEADER_CONTENT_TYPE="Content-Type: application/json"
 HEADER_ACCEPT="Accept: application/json"
 
-local uri=$1
-local json=$2
-local certAtt=""
+#local uri=$1
+#local json=$2
+#local certAtt=""
 
-if [[ -n "$CA_CERT_PATH" ]]; then
-   certAtt="--cacert $CA_CERT_PATH"
-fi
+#if [[ -n "$CA_CERT_PATH" ]]; then
+#   certAtt="--cacert $CA_CERT_PATH"
+#fi
+#
 
-echo "Calling URI (POST): " ${uri}
+#echo "Calling URI (POST): " ${uri}
 
 IBM_TOKEN=`curl --location --request POST 'https://iam.ng.bluemix.net/oidc/token' \
 --header 'Content-Type: application/x-www-form-urlencoded' \

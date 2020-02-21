@@ -13,6 +13,6 @@ env:
     - DEV_FINAL_TARGET=docs-final
 
 script:
-  - ./scripts/prepare-target.sh $TRAVIS_COMMIT_RANGE
+#  - ./scripts/prepare-target.sh $TRAVIS_COMMIT_RANGE
   - ./scripts/deploy.sh
   - ./scripts/publish.sh

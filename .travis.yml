@@ -15,4 +15,5 @@ env:
 
 script:
   - ./scripts/prepare-target.sh $TRAVIS_COMMIT_RANGE
+  - ./scripts/deploy.sh
   - ./scripts/publish.sh

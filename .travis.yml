@@ -7,4 +7,5 @@ env:
 
 
 script:
-  - ./publish.sh
+  - ./scripts/prepare-target.sh $TRAVIS_COMMIT_RANGE
+  - ./scripts/publish.sh

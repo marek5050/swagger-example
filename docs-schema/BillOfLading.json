@@ -1,6 +1,6 @@
 {
   "schema": {
-    "model": "BillOfLading-Sample-Auto",
+    "model": "BillOfLading-Sample-Auto-1",
     "type": "object",
     "properties": {
       "billOfLading": {

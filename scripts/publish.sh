@@ -1,4 +1,4 @@
-source utilities.sh
+source ./scripts/utilities.sh
 
 trap 'slackMsgFail "${LAST_STATUS}" $?' EXIT
 ##Requires bootstrap script to pull in ci proj

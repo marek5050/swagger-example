@@ -2,7 +2,7 @@ language: generic
 sudo: false
 
 before_install:
-  - sudo apt-get -y jq
+  - sudo apt-get -y install jq
 
 addons:
   apt:

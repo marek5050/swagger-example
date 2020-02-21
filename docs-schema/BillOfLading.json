@@ -1,31 +1,22 @@
 {
+  "description": "Bill Of Lading",
+  "docType": "BILL_OF_LADING_2",
+  "jsonSupport": true,
+  "name": "BILL_OF_LADING",
+  "organizationId": "sample_org",
+  "sampleModel": {
+    "changeme": "changeme"
+  },
   "schema": {
-    "model": "BillOfLading-Sample-Auto-1",
-    "type": "object",
-    "properties": {
-      "billOfLading": {
-        "$ref": "#/definitions/BillOfLading"
-      }
-    },
     "definitions": {
       "Address": {
-        "type": "object",
         "properties": {
-          "street": {
-            "description": "A name, expressed as text, of a street or thoroughfare.",
-            "type": "string"
-          },
           "city": {
             "description": "The name, expressed as text, of the city, town or village of this address.",
             "type": "string"
           },
-          "state": {
-            "description": "The name, expressed as text, of the state of this address.",
-            "type": "string"
-          },
           "country": {
             "description": "A unique country identifier for this party.",
-            "type": "string",
             "enum": [
               "AD",
               "AE",
@@ -283,10 +274,19 @@
               "OF",
               "OG",
               "OZ"
-            ]
+            ],
+            "type": "string"
           },
           "postcode": {
             "description": "A code specifying the postcode of the address.",
+            "type": "string"
+          },
+          "state": {
+            "description": "The name, expressed as text, of the state of this address.",
+            "type": "string"
+          },
+          "street": {
+            "description": "A name, expressed as text, of a street or thoroughfare.",
             "type": "string"
           }
         },
@@ -295,27 +295,27 @@
           "city",
           "state",
           "country"
-        ]
+        ],
+        "type": "object"
       },
       "BillOfLading": {
-        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/definitions/TransportDocument"
+          },
+          {
+            "type": "object"
+          }
+        ],
         "properties": {
-          "negotiable": {
-            "description": "Indicator, whether or not the bill of lading is negotiable. ",
-            "type": "boolean"
-          },
-          "freightedAtAd": {
-            "description": "Freighted at ad indicator. ",
-            "type": "boolean"
-          },
           "certifiedMember": {
             "description": "Certified member. ",
             "type": "string"
           },
           "dateOfAcceptance": {
             "description": "Acceptance date of the bill of lading. ",
-            "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "declarationOfInterest": {
             "description": "Declaration of interest indicator. ",
@@ -325,22 +325,22 @@
             "description": "Indication of this being an electronic bill of lading. ",
             "type": "boolean"
           },
+          "freightedAtAd": {
+            "description": "Freighted at ad indicator. ",
+            "type": "boolean"
+          },
+          "negotiable": {
+            "description": "Indicator, whether or not the bill of lading is negotiable. ",
+            "type": "boolean"
+          },
           "witness": {
             "description": "In witness whereof this MTD has been signed",
             "type": "string"
           }
         },
-        "allOf": [
-          {
-            "$ref": "#/definitions/TransportDocument"
-          },
-          {
-            "type": "object"
-          }
-        ]
+        "type": "object"
       },
       "CargoInformation": {
-        "type": "object",
         "properties": {
           "text": {
             "description": "Textual cargo information.",
@@ -348,7 +348,6 @@
           },
           "type": {
             "description": "Type of cargo information. ",
-            "type": "string",
             "enum": [
               "goodsDescription",
               "dangerousGoodsAdditionalInformation",
@@ -356,16 +355,23 @@
               "hazardInformation",
               "temperatureControlInstructions",
               "equipmentComments"
-            ]
+            ],
+            "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "Carrier": {
-        "type": "object",
         "properties": {
+          "address": {
+            "$ref": "#/definitions/Address"
+          },
           "carrierCode": {
             "description": "SCAC code.",
             "type": "string"
+          },
+          "contactDetails": {
+            "$ref": "#/definitions/Communication"
           },
           "name": {
             "description": "Carrier name. ",
@@ -374,22 +380,24 @@
           "taxId": {
             "description": "Carrier''s tax identification. ",
             "type": "string"
-          },
-          "address": {
-            "$ref": "#/definitions/Address"
-          },
-          "contactDetails": {
-            "$ref": "#/definitions/Communication"
           }
         },
         "required": [
           "carrierCode",
           "name"
-        ]
+        ],
+        "type": "object"
       },
       "Charges": {
-        "type": "object",
         "properties": {
+          "amount": {
+            "description": "A monetary value applied to this logistics service charge.",
+            "type": "number"
+          },
+          "calculationBasis": {
+            "description": "The code specifying a basis on which this service charge is to be calculated such as by volume or per unit.",
+            "type": "string"
+          },
           "chargeCode": {
             "description": "The unique identifier for this logistics service charge.",
             "type": "string"
@@ -398,29 +406,9 @@
             "description": "A textual description of this logistics service charge.",
             "type": "string"
           },
-          "rate": {
-            "description": "Per unit rate. ",
-            "type": "number"
-          },
-          "calculationBasis": {
-            "description": "The code specifying a basis on which this service charge is to be calculated such as by volume or per unit.",
-            "type": "string"
-          },
           "currency": {
             "description": "Charge currency. ",
             "type": "string"
-          },
-          "paymentTerm": {
-            "description": "Charge payment term.",
-            "type": "string",
-            "enum": [
-              "prepaid",
-              "collect"
-            ]
-          },
-          "amount": {
-            "description": "A monetary value applied to this logistics service charge.",
-            "type": "number"
           },
           "freightPayableAt": {
             "description": "Charge receiver. ",
@@ -430,36 +418,47 @@
             "description": "Reference to the invoice party. ",
             "type": "string"
           },
+          "paymentTerm": {
+            "description": "Charge payment term.",
+            "enum": [
+              "prepaid",
+              "collect"
+            ],
+            "type": "string"
+          },
+          "rate": {
+            "description": "Per unit rate. ",
+            "type": "number"
+          },
           "rateReference": {
             "description": "Reference on the charge rate.",
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "Communication": {
-        "type": "object",
         "properties": {
-          "telephone": {
-            "description": "Telephone number.",
-            "type": "string"
-          },
-          "fax": {
-            "description": "Fax number. ",
+          "contactName": {
+            "description": "Name of contact person. ",
             "type": "string"
           },
           "email": {
             "description": "Email address.",
             "type": "string"
           },
-          "contactName": {
-            "description": "Name of contact person. ",
+          "fax": {
+            "description": "Fax number. ",
+            "type": "string"
+          },
+          "telephone": {
+            "description": "Telephone number.",
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "Consignee": {
-        "type": "object",
-        "properties": {},
         "allOf": [
           {
             "$ref": "#/definitions/Party"
@@ -467,24 +466,12 @@
           {
             "type": "object"
           }
-        ]
+        ],
+        "properties": {},
+        "type": "object"
       },
       "Consignment": {
-        "type": "object",
         "properties": {
-          "departureDate": {
-            "description": "Date and time of departure. ",
-            "type": "string",
-            "format": "date-time"
-          },
-          "serviceMode": {
-            "description": "The scope of the consignment, such as CY-CY or SD-SD.",
-            "type": "string"
-          },
-          "transportEquipmentQuantity": {
-            "description": "A number of pieces of transport equipment, such as containers or similar unit load devices, in this consignment.",
-            "type": "number"
-          },
           "cargoInformation": {
             "items": {
               "$ref": "#/definitions/CargoInformation"
@@ -507,11 +494,16 @@
             "items": {
               "$ref": "#/definitions/ConsignmentItem"
             },
-            "type": "array",
-            "minItems": 1
+            "minItems": 1,
+            "type": "array"
           },
           "consignor": {
             "$ref": "#/definitions/Consignor"
+          },
+          "departureDate": {
+            "description": "Date and time of departure. ",
+            "format": "date-time",
+            "type": "string"
           },
           "mainCarriageTransportMovement": {
             "items": {
@@ -558,6 +550,14 @@
             },
             "type": "array"
           },
+          "serviceMode": {
+            "description": "The scope of the consignment, such as CY-CY or SD-SD.",
+            "type": "string"
+          },
+          "transportEquipmentQuantity": {
+            "description": "A number of pieces of transport equipment, such as containers or similar unit load devices, in this consignment.",
+            "type": "number"
+          },
           "utilizedTransportEquipment": {
             "items": {
               "$ref": "#/definitions/TransportEquipment"
@@ -570,29 +570,21 @@
           "consignee",
           "consignmentItems",
           "consignor"
-        ]
+        ],
+        "type": "object"
       },
       "ConsignmentItem": {
-        "type": "object",
         "properties": {
-          "sequence": {
-            "description": "The sequence number for this consignment item.",
-            "type": "number"
-          },
-          "information": {
-            "description": "Information, expressed as text, for this consignment item.",
-            "type": "string"
-          },
           "codeType": {
             "description": "The cargo code type of consignment item. \nhttps://service.unece.org/trade/untdid/d00a/tred/tred7143.htm",
-            "type": "string",
             "enum": [
               "harmonizedSystem",
               "stockKeepingUnit",
               "purchaseOrder",
               "cargoSpecificationNumber",
               "vehicleIdentificationNumber"
-            ]
+            ],
+            "type": "string"
           },
           "codeValue": {
             "description": "missing description",
@@ -616,14 +608,21 @@
             },
             "type": "array"
           },
+          "information": {
+            "description": "Information, expressed as text, for this consignment item.",
+            "type": "string"
+          },
+          "sequence": {
+            "description": "The sequence number for this consignment item.",
+            "type": "number"
+          },
           "transportPackages": {
             "$ref": "#/definitions/TransportPackage"
           }
-        }
+        },
+        "type": "object"
       },
       "Consignor": {
-        "type": "object",
-        "properties": {},
         "allOf": [
           {
             "$ref": "#/definitions/Party"
@@ -631,31 +630,32 @@
           {
             "type": "object"
           }
-        ]
+        ],
+        "properties": {},
+        "type": "object"
       },
       "Document": {
-        "type": "object",
         "properties": {
-          "originatorName": {
-            "description": "The proper name (human readable) of the entity that published this event.",
-            "type": "string"
-          },
-          "originatorId": {
-            "description": "The party identification code (i.e. SCAC) of the organization publishing the event.",
-            "type": "string"
+          "copyIssued": {
+            "description": "The number of copies issued for this document.",
+            "type": "number"
           },
           "issue": {
             "description": "A date, time, date time or other date time value for an issuance of this document.",
-            "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "originalIssued": {
             "description": "The number of originals issued for this document.",
             "type": "number"
           },
-          "copyIssued": {
-            "description": "The number of copies issued for this document.",
-            "type": "number"
+          "originatorId": {
+            "description": "The party identification code (i.e. SCAC) of the organization publishing the event.",
+            "type": "string"
+          },
+          "originatorName": {
+            "description": "The proper name (human readable) of the entity that published this event.",
+            "type": "string"
           },
           "placeOfIssue": {
             "$ref": "#/definitions/Location"
@@ -666,28 +666,27 @@
             },
             "type": "array"
           }
-        }
+        },
+        "type": "object"
       },
       "Location": {
-        "type": "object",
         "properties": {
-          "name": {
-            "description": "A name, expressed as text, of this logistics related location.",
-            "type": "string"
-          },
           "UNLocode": {
             "description": "United Nations Location Code (UNLOCODE) unique identifier for logistics related location. ",
+            "type": "string"
+          },
+          "name": {
+            "description": "A name, expressed as text, of this logistics related location.",
             "type": "string"
           },
           "printedLocation": {
             "description": "The location exactly as printed on the document.",
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "NotifyParty": {
-        "type": "object",
-        "properties": {},
         "allOf": [
           {
             "$ref": "#/definitions/Party"
@@ -695,14 +694,22 @@
           {
             "type": "object"
           }
-        ]
+        ],
+        "properties": {},
+        "type": "object"
       },
       "OtherParty": {
-        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/definitions/Party"
+          },
+          {
+            "type": "object"
+          }
+        ],
         "properties": {
           "partyType": {
             "description": "Type of party. ",
-            "type": "string",
             "enum": [
               "exporter",
               "importer",
@@ -730,23 +737,30 @@
               "portCommunitySystem",
               "exportAuthority",
               "importAuthority"
-            ]
+            ],
+            "type": "string"
           }
         },
-        "allOf": [
-          {
-            "$ref": "#/definitions/Party"
-          },
-          {
-            "type": "object"
-          }
-        ]
+        "type": "object"
       },
       "Party": {
-        "type": "object",
         "properties": {
+          "address": {
+            "$ref": "#/definitions/Address"
+          },
+          "communicationDetails": {
+            "$ref": "#/definitions/Communication"
+          },
           "name": {
             "description": "A name, expressed as text, for this party.",
+            "type": "string"
+          },
+          "organizationId": {
+            "description": "Unique identifier of the party. ",
+            "type": "string"
+          },
+          "partyRef": {
+            "description": "Reference which represents the party.",
             "type": "string"
           },
           "printedParty": {
@@ -760,29 +774,14 @@
           "taxReference": {
             "description": "Tax identification of the party.",
             "type": "string"
-          },
-          "partyRef": {
-            "description": "Reference which represents the party.",
-            "type": "string"
-          },
-          "organizationId": {
-            "description": "Unique identifier of the party. ",
-            "type": "string"
-          },
-          "address": {
-            "$ref": "#/definitions/Address"
-          },
-          "communicationDetails": {
-            "$ref": "#/definitions/Communication"
           }
-        }
+        },
+        "type": "object"
       },
       "Reference": {
-        "type": "object",
         "properties": {
           "type": {
             "description": "Type of reference. ",
-            "type": "string",
             "enum": [
               "proformaInvoiceNumber",
               "deliveryScheduleNumber",
@@ -883,29 +882,30 @@
               "previousCargoControlNumber",
               "mutuallyDefinedReferenceNumber",
               "billOfLadingReference"
-            ]
+            ],
+            "type": "string"
           },
           "value": {
             "description": "Reference value. ",
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "Seal": {
-        "type": "object",
         "properties": {
-          "type": {
-            "description": "Description specifying the type of logistics seal.",
-            "type": "string"
-          },
           "identifier": {
             "description": "A unique identifier for this logistics seal.",
             "type": "string"
+          },
+          "type": {
+            "description": "Description specifying the type of logistics seal.",
+            "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "Stuffing": {
-        "type": "object",
         "properties": {
           "equipmentNumber": {
             "description": "Unique identifier of the transport equipment in which cargo is stuffed. ",
@@ -929,16 +929,25 @@
             },
             "type": "array"
           }
-        }
+        },
+        "type": "object"
       },
       "TransportDocument": {
-        "type": "object",
-        "properties": {
-          "shippedOnBoardDate": {
-            "description": "Date when the cargo was shipped on board. ",
-            "type": "string",
-            "format": "date-time"
+        "allOf": [
+          {
+            "$ref": "#/definitions/Document"
           },
+          {
+            "type": "object"
+          },
+          {
+            "$ref": "#/definitions/Consignment"
+          },
+          {
+            "type": "object"
+          }
+        ],
+        "properties": {
           "billOfLadingNumber": {
             "description": "Bill of lading number of the transport document. ",
             "type": "string"
@@ -955,28 +964,19 @@
               "$ref": "#/definitions/TransportDocumentInformation"
             },
             "type": "array"
+          },
+          "shippedOnBoardDate": {
+            "description": "Date when the cargo was shipped on board. ",
+            "format": "date-time",
+            "type": "string"
           }
         },
-        "allOf": [
-          {
-            "$ref": "#/definitions/Document"
-          },
-          {
-            "type": "object"
-          },
-          {
-            "$ref": "#/definitions/Consignment"
-          },
-          {
-            "type": "object"
-          }
-        ],
         "required": [
           "billOfLadingNumber"
-        ]
+        ],
+        "type": "object"
       },
       "TransportDocumentInformation": {
-        "type": "object",
         "properties": {
           "text": {
             "description": "Textual transport document information. ",
@@ -984,7 +984,6 @@
           },
           "type": {
             "description": "Type of transport document information. ",
-            "type": "string",
             "enum": [
               "generalInformation",
               "billOfLadingRemarks",
@@ -992,13 +991,24 @@
               "billOfLadingClause",
               "transportDocumentRemarks",
               "specialRoutingInstructions"
-            ]
+            ],
+            "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "TransportEquipment": {
-        "type": "object",
         "properties": {
+          "code": {
+            "items": {
+              "description": "The harmonized system code specifying a type of loaded consignment item(s).",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "equipmentGrossWeight": {
+            "$ref": "#/definitions/Weight"
+          },
           "equipmentNumber": {
             "description": "Unique identifier for this piece of transport equipment, printed physically on the equipment.",
             "type": "string"
@@ -1011,16 +1021,6 @@
             "description": "The container size and type, as printed on the transport document (for example \"40 DRY 9''6\").",
             "type": "string"
           },
-          "code": {
-            "items": {
-              "description": "The harmonized system code specifying a type of loaded consignment item(s).",
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "equipmentGrossWeight": {
-            "$ref": "#/definitions/Weight"
-          },
           "seals": {
             "items": {
               "$ref": "#/definitions/Seal"
@@ -1030,10 +1030,10 @@
         },
         "required": [
           "equipmentNumber"
-        ]
+        ],
+        "type": "object"
       },
       "TransportMeans": {
-        "type": "object",
         "properties": {
           "identification": {
             "description": "An identifier of this logistics means of transport, such as the International Maritime Organization number of a vessel.",
@@ -1043,10 +1043,10 @@
             "description": "The name, expressed as text, of this logistics means of transport such as the vessel name.",
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "TransportMovement": {
-        "type": "object",
         "properties": {
           "identification": {
             "description": "To identify a journey of a means of transport, for example voyage number, flight number, trip number.",
@@ -1055,14 +1055,21 @@
           "usedTransportMeans": {
             "$ref": "#/definitions/TransportMeans"
           }
-        }
+        },
+        "type": "object"
       },
       "TransportPackage": {
-        "type": "object",
         "properties": {
           "quantity": {
             "description": "The number of logistics packages at this level.",
             "type": "number"
+          },
+          "shippingMarks": {
+            "items": {
+              "description": "Physical markings or labels on individual packages or transport units for shipping purposes.",
+              "type": "string"
+            },
+            "type": "array"
           },
           "type": {
             "description": "A type, expressed as text, of this logistics package.",
@@ -1071,111 +1078,56 @@
           "typeCode": {
             "description": "A code specifying the type of logistics package.",
             "type": "string"
-          },
-          "shippingMarks": {
-            "items": {
-              "description": "Physical markings or labels on individual packages or transport units for shipping purposes.",
-              "type": "string"
-            },
-            "type": "array"
           }
-        }
+        },
+        "type": "object"
       },
       "Volume": {
-        "type": "object",
         "properties": {
-          "value": {
-            "description": "Numeric measurement value. ",
-            "type": "number"
-          },
           "unit": {
             "description": "Unit used for measurements. ",
-            "type": "string",
             "enum": [
               "cbm",
               "cbf"
-            ]
+            ],
+            "type": "string"
+          },
+          "value": {
+            "description": "Numeric measurement value. ",
+            "type": "number"
           }
-        }
+        },
+        "type": "object"
       },
       "Weight": {
-        "type": "object",
         "properties": {
-          "value": {
-            "description": "Numeric weight value. ",
-            "type": "number"
-          },
           "unit": {
             "description": "Unit used for weight measurement.",
-            "type": "string",
             "enum": [
               "kgs",
               "lbs"
-            ]
+            ],
+            "type": "string"
+          },
+          "value": {
+            "description": "Numeric weight value. ",
+            "type": "number"
           }
-        }
+        },
+        "type": "object"
       }
-    }
+    },
+    "model": "BillOfLading",
+    "properties": {
+      "billOfLading": {
+        "$ref": "#/definitions/BillOfLading"
+      }
+    },
+    "type": "object"
   },
-  "layout": [
-    {
-      "widget": "message",
-      "message": "<h1>billOfLading</h1>"
-    },
-    {
-      "key": "negotiable"
-    },
-    {
-      "key": "freightedAtAd"
-    },
-    {
-      "key": "certifiedMember"
-    },
-    {
-      "key": "dateOfAcceptance"
-    },
-    {
-      "key": "declarationOfInterest"
-    },
-    {
-      "key": "eBL"
-    },
-    {
-      "key": "witness"
-    },
-    {
-      "key": "shippedOnBoardDate"
-    },
-    {
-      "key": "billOfLadingNumber",
-      "required": true
-    },
-    {
-      "key": "bookingNumber"
-    },
-    {
-      "key": "originatorName"
-    },
-    {
-      "key": "originatorId"
-    },
-    {
-      "key": "issue"
-    },
-    {
-      "key": "originalIssued"
-    },
-    {
-      "key": "copyIssued"
-    },
-    {
-      "key": "departureDate"
-    },
-    {
-      "key": "serviceMode"
-    },
-    {
-      "key": "transportEquipmentQuantity"
-    }
-  ]
+  "status": "ACTIVE",
+  "supportedContentTypes": [
+    "application/json"
+  ],
+  "version": 9
 }
